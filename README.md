@@ -76,3 +76,7 @@ cd frontend && npm run build
 FastAPI 后端 + React/Vite SPA 前端 + BM25+TF-IDF 混合检索 + OpenAI-compatible LLM providers + SSE 流式。
 
 文档按用途分层：`docs/product/`（产品需求与蓝图）、`docs/contracts/`（API 接口契约），另有术语表 / 版本记录 / 数据迁移指南。
+
+## 许可证
+
+本项目采用 [MIT License](LICENSE)。你可以自由使用、修改、分发，包括商用，但需保留版权声明。
