@@ -2,6 +2,60 @@
 
 > 一个面向普通人的本地知识助手——上传文档，用自然语言提问，发现知识之间的关联。
 
+## 选择你的使用方式
+
+|  | **方式一：免安装版**（推荐给普通用户） | **方式二：源码部署**（开发者） |
+|---|---|---|
+| 需要装 Python 吗 | **不需要**，已内置 Python 3.12.8 | 需要，**Python 3.12**（实测 3.12.8） |
+| 需要装依赖吗 | 不需要，全部预装 | 需要 `pip install -r requirements.txt` |
+| 需要构建前端吗 | 不需要，已编译好 | 需要 `npm run build` |
+| 上手耗时 | 解压即用，约 1 分钟 | 10～20 分钟 |
+
+### 方式一：免安装版（不装 Python，解压即用）
+
+1. 到 [Releases 页面](https://github.com/janacoco525/ai-knowledge-base/releases) 下载
+   `AI知识库-免安装版-v3.8.1-Windows-x64.zip`（132 MB，已内置 Python 3.12.8）
+2. 解压到任意位置（路径建议不含空格和中文，例如 `D:\AIKB`）
+3. 双击 `启动.bat`，浏览器会自动打开 http://127.0.0.1:8501
+4. 关闭黑色命令行窗口即停止服务
+
+> 内置的 Python 3.12.8 只在程序文件夹内生效，不会改动系统环境变量，
+> 也不会影响你电脑上已有的 Python。整个文件夹就是全部数据，复制文件夹即完成备份。
+
+### 方式二：源码部署
+
+**环境要求**
+
+- **Python 3.12**（本项目实测 3.12.8。不建议用 3.13，部分依赖尚无兼容版本）
+- Node.js 18 及以上（仅用于构建前端）
+
+```bash
+# 1. 创建虚拟环境并使用 Python 3.12
+python -m venv .venv
+
+# 2. 激活（Windows）
+.venv\Scripts\activate
+#   激活（macOS / Linux）
+source .venv/bin/activate
+
+# 3. 确认版本
+python --version      # 应显示 Python 3.12.x
+
+# 4. 安装依赖
+pip install -r requirements.txt
+
+# 5. 构建前端
+cd frontend && npm install && npm run build && cd ..
+
+# 6. 启动服务
+python start.py
+```
+
+浏览器打开 http://127.0.0.1:8501
+
+> ⚠️ 修改 `frontend/src/` 下任何文件后，必须重新执行 `npm run build`，
+> 否则浏览器仍显示旧版本。`scripts/启动.bat` 会自动处理构建。
+
 ## 为什么存在
 
 我在学习 AI/机器学习的过程中，积累了大量的 PDF 论文、电子书、笔记。我需要一个工具能：
@@ -20,28 +74,21 @@
 - 支持格式: PDF, DOCX, TXT, MD, EPUB, MOBI, PY, JS, JSON, CSV（10 种）
 - 核心功能: 文档入库 / 智能问答 / 知识图谱 / 知识脑图 / 知识卡片 / 分析总结 / AI Diff / 阅读记录 / 推荐阅读
 - 当前重点: 图谱 live 预生成异步化、知识框架树前端接入、检索质量优化
-- 启动方式: `.venv\Scripts\python.exe start.py`（或双击 `scripts/启动.bat`；⚠️ 必须用 venv Python，系统 Python 缺依赖）
+- Python 版本要求: **3.12**（实测 3.12.8）
+- 启动方式: 免安装版双击 `启动.bat`；源码部署用 `.venv\Scripts\python.exe start.py`（⚠️ 必须用 venv Python，系统 Python 缺依赖）
 
-## 快速开始
+## 日常使用与自检
 
 ```bash
-# 启动服务
-python start.py
+# 快速体检（约 20 秒，跳过全量测试，适合日常）
+python start.py --health
 
-# 打开浏览器
-http://127.0.0.1:8501
+# 完整体检（约 100 秒，含全量 pytest，适合发布前 / 提交前）
+python start.py --health --full
 
-# 或一键启动（Windows）— 自动构建前端
-scripts/启动.bat
+# 冒烟测试
+python start.py --test
 ```
-
-**⚠️ 重要：前端改动后必须重新构建**
-
-修改 `frontend/src/` 下的任何文件后，必须运行：
-```bash
-cd frontend && npm run build
-```
-否则浏览器会显示旧版本。启动脚本 (`scripts/启动.bat`) 已自动处理构建。
 
 ## 项目结构
 
