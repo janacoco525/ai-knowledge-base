@@ -1,0 +1,49 @@
+# AI知识库 - Python 依赖（由 .venv 自动生成）
+# 新电脑安装: python -m venv .venv && .venv\Scripts\pip install -r requirements.txt
+
+# === 核心框架 ===
+fastapi==0.136.3
+uvicorn==0.48.0
+starlette==1.2.1
+# starlette: fastapi 的 ASGI 底座（间接依赖显式锁版本）
+pydantic==2.13.4
+
+# === LLM 客户端 ===
+openai==2.41.0
+httpx==0.28.1
+requests==2.34.2
+# requests: openai/ddgs SDK 的 HTTP 底座（间接依赖显式锁版本）
+
+# === 文档处理 ===
+PyMuPDF==1.27.2.3
+# pymupdf: PDF 解析，代码中以 import fitz 引用
+python-docx==1.2.0
+# python-docx: DOCX 解析，代码中以 import docx 引用
+lxml==6.1.1
+# lxml: python-docx 依赖的 XML 解析底座（间接依赖显式锁版本）
+Markdown==3.10.2
+
+# === NLP / 检索 ===
+jieba==0.42.1
+rank-bm25==0.2.2
+scikit-learn==1.9.0
+# scikit-learn: TF-IDF/SVD 检索，代码中以 from sklearn 引用
+numpy==2.4.6
+scipy==1.17.1
+# scipy: scikit-learn 的运行时底座（间接依赖显式锁版本）
+
+# === 工具库 ===
+python-dotenv==1.2.2
+python-multipart==0.0.32
+# python-multipart: FastAPI 文件上传（UploadFile/form）的解析后端，无直接 import
+Pygments==2.20.0
+# pygments: Markdown 代码块语法高亮渲染
+# 注：aiofiles/tqdm 经全项目扫描确认零引用（僵尸依赖），已于 2026-08-20 移除
+
+# === 网络搜索 ===
+ddgs==9.14.4
+fake-useragent==2.2.0
+# fake-useragent: ddgs 联网搜索的 UA 轮换底座（间接依赖显式锁版本）
+
+# === 开发/测试（可选） ===
+# pytest==9.1.1

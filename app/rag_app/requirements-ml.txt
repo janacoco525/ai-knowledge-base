@@ -1,0 +1,13 @@
+# ⚠️ ARCHIVED — 重度 ML 依赖（已废弃，禁止安装）
+#
+# 2026-08-05 标记废弃：
+# 1. `chromadb` 已在项目真值.md 列为"已废弃，不重新启用"的防回退项，禁止安装
+# 2. `sentence-transformers` 代码零引用（检索底座为离线 TF-IDF+SVD，见 project 真值）
+# 3. 本文件仅保留给历史恢复链参考，不作为任何安装入口的依赖源
+#
+# 如需当前依赖，请使用 requirements-base.txt（基础）或 requirements.txt（含检索/分析）
+#
+# sentence-transformers>=2.2.0
+# chromadb>=0.4.0
+# Optional: torch (install appropriate CUDA/cpu wheel manually if needed)
+# torch>=2.2.0

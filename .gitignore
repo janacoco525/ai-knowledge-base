@@ -1,0 +1,49 @@
+# ===== 密钥与隐私（最高优先级）=====
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+id_rsa*
+provider_keys.json
+**/data/provider_keys.json
+
+# ===== 运行时缓存（检查点 / 健康报告）=====
+.aikb/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+*.egg-info/
+
+# ===== Node =====
+node_modules/
+dist/
+build/
+
+# ===== 运行时数据与产物 =====
+app/rag_app/data/
+chroma_db/
+*.pkl
+*.db
+*.sqlite*
+logs/
+output/
+release/
+backups/
+_archive/
+
+# ===== 用户私人文档（测试数据）=====
+*.epub
+*.pdf
+*.mobi
+*.azw3
+
+# ===== 编辑器 / 系统 =====
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

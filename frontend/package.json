@@ -1,0 +1,30 @@
+{
+  "name": "ai-knowledge-base",
+  "private": true,
+  "version": "3.8.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5173",
+    "build": "npm run clean && vite build",
+    "preview": "vite preview",
+    "clean": "node scripts/clean-dist.mjs",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "jszip": "^3.10.1",
+    "lucide-react": "^0.546.0",
+    "markmap-view": "^0.18.12",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "vite": "^6.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "tailwindcss": "^4.1.14",
+    "typescript": "~5.8.2"
+  }
+}
