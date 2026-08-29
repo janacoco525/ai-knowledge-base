@@ -1,5 +1,7 @@
 # 我的知识库
 
+[![CI](https://github.com/janacoco525/ai-knowledge-base/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/janacoco525/ai-knowledge-base/actions/workflows/ci.yml)
+
 > 一个面向普通人的本地知识助手——上传文档，用自然语言提问，发现知识之间的关联。
 
 ## 选择你的使用方式
