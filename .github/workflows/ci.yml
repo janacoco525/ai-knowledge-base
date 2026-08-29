@@ -36,6 +36,10 @@ jobs:
           python -c "import app.rag_app.rag_engine"
 
       - name: Run tests
+        env:
+          # 测试不真调 LLM，但 RAGEngine 初始化要构造客户端；CI 无 .env，给 dummy
+          STEP_API_KEY: dummy-not-used-in-ci
+          STEP_API_BASE: https://api.example.com/v1
         run: |
           pytest tests -q --tb=short
 
