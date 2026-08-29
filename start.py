@@ -307,10 +307,18 @@ def _check_doc_freshness() -> tuple[bool, str]:
     return True, "关键状态文件均在保鲜期内"
 
 
-def run_health_check(mode: str = "prod"):
+def run_health_check(mode: str = "prod", full: bool = False):
+    """健康自检。
+
+    full=False（默认）：快速体检，跳过全量 pytest（实测约 20 秒）
+    full=True        ：完整体检，含全量 pytest（约 100 秒）
+
+    分层原因：全量 pytest 占体检耗时 92%（91.8s / 100s），
+    日常体检需要秒级反馈；严格验证场景（发布前 / 提交前）再用 --full。
+    """
     print("AI知识库 项目健康自检")
     print("=" * 50)
-    print(f"模式: {mode.upper()}")
+    print(f"模式: {mode.upper()} / {'FULL 完整（含全量 pytest，约 100s）' if full else 'FAST 快速（跳过 pytest，实测约 20s）'}")
 
 
     score = 0
@@ -359,9 +367,14 @@ def run_health_check(mode: str = "prod"):
         print("  [WARN] 从未执行深度体检 → 运行 python scripts/deep_check.py 初始化")
     print("\n[测试]")
     check_item("smoke_test.py 存在", (PROJECT_DIR / "tests" / "smoke_test.py").exists())
-    pytest_ok, pytest_summary = _run_pytest_check()
-    check_item(f"pytest 全量通过 ({pytest_summary})", pytest_ok)
-    check_item("HANDOVER.md 存在", (PROJECT_DIR / "docs" / "HANDOVER.md").exists())
+    if full:
+        pytest_ok, pytest_summary = _run_pytest_check()
+        check_item(f"pytest 全量通过 ({pytest_summary})", pytest_ok)
+    else:
+        print("  [SKIP] pytest 全量 — 快速模式跳过（占体检耗时 92%）")
+        print("         需要严格验证时: python start.py --health --full")
+    check_item("LICENSE 存在", (PROJECT_DIR / "LICENSE").exists())
+    check_item("docs/术语表.md 存在", (PROJECT_DIR / "docs" / "术语表.md").exists())
     print("\n[前端构建]")
     if mode == "dev":
         vite_ok, vite_detail = _check_vite_dev_server()
@@ -425,6 +438,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="AI知识库 启动工具")
     parser.add_argument("--test", action="store_true", help="运行冒烟测试")
     parser.add_argument("--health", action="store_true", help="检查项目健康状态")
+    parser.add_argument("--full", action="store_true", help="配合 --health 使用：完整体检（含全量 pytest，约 100 秒）；默认快速体检跳过 pytest（约 20 秒）")
     parser.add_argument("--mode", choices=["dev", "prod"], default="prod", help="健康检查模式：dev(开发模式,检查Vite) / prod(生产模式,检查SPA构建)")
     parser.add_argument("--port", type=int, default=8501, help="服务端口（默认 8501）")
     parser.add_argument("--test-timeout", type=int, default=180, help="冒烟测试总超时秒数（默认 180）")
@@ -432,7 +446,7 @@ if __name__ == "__main__":
     parser.add_argument("--max-restarts", type=int, default=5, help="最多自动重启次数（默认 5）")
     args = parser.parse_args()
     if args.health:
-        run_health_check(mode=args.mode)
+        run_health_check(mode=args.mode, full=args.full)
         sys.exit(0)
     if args.test:
         if not check_config():
